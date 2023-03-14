@@ -2,18 +2,29 @@ const taskName = document.querySelector("input#task-name");
 const taskPriority = document.querySelector("select#task-priority");
 const addButton = document.querySelector(".add-btn");
 const addTaskForm = document.querySelector("#add-new-task");
-
-const ul = document.querySelector("ul");
+const todoList = document.querySelector("ul#todo");
+const doingList = document.querySelector("ul#doing");
+const completeList = document.querySelector("ul#complete");
 const emptyMessage = document.querySelector(".empty");
 const deleteBtn = document.querySelector("button.delete-btn");
+
+const TODO = "todo";
+const DOING = "doing";
+const COMPLETE = "complete";
+const TASKS = "tasks";
+
+const state = retrieveData();
+console.log(state);
 
 addTaskForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = Object.fromEntries(new FormData(addTaskForm));
 
   const taskNode = createTaskNode(formData);
-  ul.appendChild(taskNode);
-  checkTaskQ();
+  state.todo.push(formData);
+  todoList.appendChild(taskNode);
+
+  saveInLocalStorage()
   addTaskForm.reset();
 });
 
@@ -24,23 +35,16 @@ function addDeleteBtn() {
   return deleteBtn;
 }
 
-function checkTaskQ() {
-  let tasks = ul.childNodes.length;
-  if (tasks > 0) {
-    emptyMessage.style.display = "none";
-  } else {
-    emptyMessage.style.display = "block";
-  }
-}
-
 function createTaskNode(data) {
   const wrapper = document.createElement("li");
   const description = document.createElement("p");
   const actionsWrapper = document.createElement("div");
-  const moveSelect = createMoveSelector(data.tPriority);
+  const moveSelect = createMoveSelector();
   const deleteBtn = addDeleteBtn();
 
-  wrapper.classList.add(["task-container", data.tPriority]);
+  const priorities = { 0: 'normal' , 1: 'medium' ,  2: 'high' };
+
+  wrapper.classList.add("task-container", priorities[data.tPriority]);
   actionsWrapper.classList.add("actions-wrapper");
 
   description.textContent = data.tName;
@@ -53,11 +57,11 @@ function createTaskNode(data) {
   return wrapper;
 }
 
-function createMoveSelector(currentPriority) {
+function createMoveSelector(currentCategory = TODO) {
   const select = document.createElement("select");
-  const priorities = [{ 2: "Alta" }, { 1: "Media" }, { 0: "Normal" }];
-  priorities
-    .filter((v) => +Object.keys(v)[0] !== +currentPriority)
+  const categories = [{ 0: TODO }, { 1: DOING }, { 2: COMPLETE }];
+  categories
+    .filter((v) => Object.values(v)[0] !== currentCategory)
     .map((v) => {
       const option = document.createElement("option");
       const [key, value] = Object.entries(v)[0];
@@ -67,3 +71,47 @@ function createMoveSelector(currentPriority) {
     });
   return select;
 }
+
+function saveInLocalStorage() {
+  localStorage.setItem(TASKS, JSON.stringify(state));
+}
+
+function retrieveData() {
+  try {
+    const data = JSON.parse(localStorage.getItem(TASKS));
+    return data ?? { [`${TODO}`]: [], [`${DOING}`]: [], [`${COMPLETE}`]: [] };
+  } catch {
+    return { [`${TODO}`]: [], [`${DOING}`]: [], [`${COMPLETE}`]: [] };
+  }
+}
+
+(function renderAllTasks(){
+    console.log(state)
+   for (const [key, tasks] of Object.entries(state)) {
+    console.log(key, tasks)
+    if (key === TODO) {
+        tasks.sort((a, b) => b.tPriority - a.tPriority)
+        tasks.forEach(element => {
+            console.log(createTaskNode(element))
+            todoList.appendChild(createTaskNode(element))
+        });
+    }
+    
+    if (key === DOING) {
+        tasks.sort((a, b) => b.tPriority - a.tPriority)
+        tasks.forEach(element => {
+            console.log(createTaskNode(element))
+            todoList.appendChild(createTaskNode(element))
+        });
+    }
+
+    if (key === COMPLETE) {
+        tasks.sort((a, b) => b.tPriority - a.tPriority)
+        tasks.forEach(element => {
+            console.log(createTaskNode(element))
+            todoList.appendChild(createTaskNode(element))
+        });
+    }
+
+   }
+})()
