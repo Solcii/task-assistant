@@ -9,18 +9,30 @@
 </head>
 <body>
     <div class="container">
-        <h1>Lista de Tareas</h1>
-        <div class="form-container">
-            <form>
-                <input type="text" placeholder="Agrega tu tarea pendiente...">
-                <button class="add-btn">+</button>
-            </form>
+        <div class="left-container">
+            <h1>Task Assistant</h1>
+            <div class="form-container">
+                <form id="add-new-task">
+                    <label for="tName" class="form-label">Tìtulo de la tarea</label>
+                    <input id="tName" name="tName" type="text" required>
+                    <label for="tPriority" class="form-label">Prioridad</label>
+                    <select id="tPriority" name="tPriority" required>
+                        <option value="" selected disabled>Seleccionar</option>
+                        <option value="0">Normal</option>
+                        <option value="1">Media</option>
+                        <option value="2">Alta</option>
+                    </select>
+                    <button type="submit" class="add-btn">Añadir tarea</button>
+                </form>
+            </div>
         </div>
-        <div class="task-container">
-            <ul></ul>
-        </div>
-        <div class="empty">
-            <p>No tienes tareas pendientes.</p>
+        <div class="main-container">
+            <div class="task-container">
+                <ul></ul>
+            </div>
+            <div class="empty">
+                <p>No tienes tareas pendientes.</p>
+            </div>
         </div>
     </div>
     <script src="static/main.js"></script>

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand+SC&family=Roboto:wght@100;300;400&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -6,76 +8,97 @@
 body{  
     font-size: 16px;
     line-height: 1.5;
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: lightskyblue;
-    color: #1A1A1A;
+    background-color: #fafafa;
+    background-image: url(images/background.png);
+    background-size: cover;
+    color: #22423d;
+    font-family: 'Roboto', sans-serif;
 }
 
 body .container{
-    margin: 30px auto;
-    background-color: white;
-    width: 30%;
-    min-width: 500px;
+    display: flex;
+}
+
+body .container .left-container{
+    margin: 30px;
+    background-color: #fafafa;
+    width: 20%;
+    min-width: 300px;
     padding: 30px;
     border-radius: 2px;
     box-shadow: 3px 8px 18px -1px rgba(0,0,0,0.75);
 }
 
-body .container h1{
+body .container .left-container h1{
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    font-family: 'Patrick Hand SC', cursive;
+    font-size: 35px;
+    color: #ead3ca;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.75);
+    letter-spacing: 2px;
 }
 
-body .container .form-container form{
+body .container .left-container .form-container form{
     display: flex;
+    flex-direction: column;
 }
 
-body .container .form-container form input{
-    padding: 15px 10px;
-    width: 90%;
-    border-radius: 2px 0 0 2px;
-    border: 1px solid #1A1A1A;
-    border-left: 4px solid rgb(82, 5, 155);
+body .container .left-container .form-container form .form-label{
+    font-size: 14px;
+    font-weight: 300;
+    margin-bottom: 5px;
+}
+
+body .container .left-container .form-container form .form-label:last-of-type{
+    margin-top: 15px;
+}
+
+body .container .left-container .form-container form input,
+body .container .left-container .form-container form select {
+    padding: 5px;
+    border: 1px solid #ead3ca;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px -1px rgba(0,0,0,0.75);
+    font-size: 14px;
     outline: none;
 }
 
-body .container .form-container form input::placeholder{
+body .container .left-container .form-container form input:focus{
+    outline: 2px solid #ead3ca;
+}
+
+body .container .left-container .form-container form select{
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+}
+
+body .container .left-container .form-container form .add-btn{
     font-size: 14px;
-}
-
-body .container .form-container form .add-btn{
-    width: 10%;
+    margin-top: 25px;
+    background-color: #ead3ca;
     border: none;
-    border-radius: 0 2px 2px 0;
-    background-color: rgb(82, 5, 155);
-    color: white;
-    font-size: 30px;
-    font-family: fantasy;
+    border-radius: 5px;
+    padding: 10px;
+    text-transform: uppercase;
+    font-family: 'Patrick Hand SC', cursive;
     cursor: pointer;
-}
-body .container .form-container form .add-btn:hover{
-    opacity: 0.7;
-}
-
-body .container .task-container ul{
-    padding: 0;
+    transition: all .5s;
+    box-shadow: 1px 1px 3px -1px rgba(0,0,0,0.75);
 }
 
-body .container .task-container ul li{
-
+body .container .left-container .form-container form .add-btn:hover{
+    background-color: #ddad9a;
 }
 
-body .container .task-container ul li p{
-
+body .container .main-container{
+    width: 80%;
+    background-color: #fafafa;
+    margin: 30px 30px 30px 0;
+    padding: 30px;
+    border-radius: 2px;
+    box-shadow: 3px 8px 18px -1px rgba(0,0,0,0.75);
 }
 
-body .container .task-container ul li .delete-btn{
-    
-}
-body .container .empty{
-    margin-top: 10px;
-}
-body .container .empty p{
-    opacity: 0.7;
-    font-style: italic;
-}
+
+
