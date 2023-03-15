@@ -30,7 +30,6 @@ addTaskForm.addEventListener("submit", (e) => {
 
 function addDeleteBtn() {
   const deleteBtn = document.createElement("button");
-  deleteBtn.textContent = "Borrar";
   deleteBtn.classList.add("delete-btn");
   return deleteBtn;
 }

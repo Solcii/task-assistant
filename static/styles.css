@@ -21,9 +21,10 @@ body .container{
 
 body .container .left-container{
     margin: 30px;
-    background-color: #fafafa;
+    background-color: rgba(250, 250, 250, 0.75);;
     width: 20%;
     min-width: 300px;
+    height: fit-content;
     padding: 30px;
     border-radius: 2px;
     box-shadow: 3px 8px 18px -1px rgba(0,0,0,0.75);
@@ -93,12 +94,108 @@ body .container .left-container .form-container form .add-btn:hover{
 
 body .container .main-container{
     width: 80%;
-    background-color: #fafafa;
+}
+body .container .main-container .board-wrapper{
     margin: 30px 30px 30px 0;
-    padding: 30px;
-    border-radius: 2px;
-    box-shadow: 3px 8px 18px -1px rgba(0,0,0,0.75);
 }
 
+body .container .main-container .board-wrapper .board-list{
+    background-color: rgba(250, 250, 250, 0.75);
+    border-radius: 0 0 5px 5px;
+    box-shadow: 3px 8px 18px -1px rgba(0,0,0,0.75);
+    padding: 15px 30px;
+}
+
+body .container .main-container .board-wrapper .board-title{
+    font-family: 'Patrick Hand SC', cursive;
+    font-size: 25px;
+    color: #fafafa;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.75);
+    letter-spacing: 2px;
+    padding: 3px 10px;
+    width: fit-content;
+    position: relative;
+    border-radius: 5px 5px 0 0;
+}
+body .container .main-container .board-wrapper.todo .board-list{
+    border-top: 5px solid #ddad9a;
+}
+body .container .main-container .board-wrapper.todo .board-title{
+    background-color: #ddad9a;
+}
+
+body .container .main-container .board-wrapper.doing .board-list{
+    border-top: 5px solid #ffdcc9;
+}
+body .container .main-container .board-wrapper.doing .board-title{
+    background-color: #ffdcc9;
+}
+
+body .container .main-container .board-wrapper.complete .board-list{
+    border-top: 5px solid #caebda;
+}
+
+body .container .main-container .board-wrapper.complete .board-title{
+    background-color: #caebda;
+}
+
+body .container .main-container .task-container .board-wrapper ul li{
+     display: grid;
+     grid-template-columns: 85% 15%;
+     align-items: center;
+     background-color: #fafafa;
+     padding: 10px;
+     margin: 10px 0;
+     box-shadow: 1px 1px 3px -1px rgba(0,0,0,0.5);
+     border-radius: 2px;
+     width: 100%;
+}
+
+body .container .main-container .task-container .board-wrapper ul li.high{
+    border-left: 5px solid #cb3a35;
+}
+
+body .container .main-container .task-container .board-wrapper ul li:not(.normal):before{
+    content: '\f024';
+    font-family: 'Font Awesome 5 Free';
+    font-size: 12px;
+    font-weight: 600;
+    position: absolute;
+}
+body .container .main-container .task-container .board-wrapper ul li.high:before{
+    color: #cb3a35;
+}
+
+body .container .main-container .task-container .board-wrapper ul li.medium:before{
+    color: #f6bc66;
+}
+
+body .container .main-container .task-container .board-wrapper ul li.medium{
+    border-left: 5px solid #f6bc66;
+}
+
+body .container .main-container .task-container .board-wrapper ul li.normal{
+    border-left: 5px solid #b5d6d6;
+}
+
+body .container .main-container .task-container .board-wrapper ul li p{
+    padding-left: 20px;
+}
+
+body .container .main-container .task-container .board-wrapper ul li .actions-wrapper{
+    justify-self: end;
+}
+body .container .main-container .task-container .board-wrapper ul li .actions-wrapper .delete-btn{
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    padding: 0 5px;
+}
+body .container .main-container .task-container .board-wrapper ul li .actions-wrapper .delete-btn:before{
+    font-size: 15px;
+    font-family: 'Font Awesome 5 Free';
+    content: '\f2ed';
+    font-weight: 100;
+}
 
 
