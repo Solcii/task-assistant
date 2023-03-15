@@ -25,19 +25,30 @@ addTaskForm.addEventListener("submit", (e) => {
   todoList.appendChild(taskNode);
 
   saveInLocalStorage()
+  reorderTasks(TODO)
   addTaskForm.reset();
 });
 
 function addDeleteBtn() {
   const deleteBtn = document.createElement("button");
   deleteBtn.classList.add("delete-btn");
+
+  deleteBtn.addEventListener('click', ()=>{
+    deleteTask(deleteBtn);
+  });
+
   return deleteBtn;
+}
+
+function deleteTask(clickedElement){
+  clickedElement.parentElement.parentElement.remove();
 }
 
 function createTaskNode(data) {
   const wrapper = document.createElement("li");
   const description = document.createElement("p");
   const actionsWrapper = document.createElement("div");
+  const label = document.createElement('label')
   const moveSelect = createMoveSelector();
   const deleteBtn = addDeleteBtn();
 
@@ -47,13 +58,24 @@ function createTaskNode(data) {
   actionsWrapper.classList.add("actions-wrapper");
 
   description.textContent = data.tName;
+  label.textContent = 'Mover tarea'
 
   wrapper.appendChild(description);
+  actionsWrapper.appendChild(label)
   actionsWrapper.appendChild(moveSelect);
   actionsWrapper.appendChild(deleteBtn);
   wrapper.appendChild(actionsWrapper);
 
+  label.addEventListener('click', ()=> {
+    toggleSelector(label);
+  })
+
   return wrapper;
+}
+
+function toggleSelector(clickedElement){
+  const selector = clickedElement.nextElementSibling;
+  selector.classList.toggle('active');
 }
 
 function createMoveSelector(currentCategory = TODO) {
@@ -84,33 +106,22 @@ function retrieveData() {
   }
 }
 
+function reorderTasks(list){
+  const listName = `ul#${list}`;
+  const listObject = document.querySelector(listName);
+  for (const [key, tasks] of Object.entries(state)) {
+  if (key === list) {
+        tasks.sort((a, b) => b.tPriority - a.tPriority)
+        listObject.textContent = '';
+        tasks.forEach(element => {
+          listObject.appendChild(createTaskNode(element))
+        });
+    }
+  }
+}
+
 (function renderAllTasks(){
-    console.log(state)
-   for (const [key, tasks] of Object.entries(state)) {
-    console.log(key, tasks)
-    if (key === TODO) {
-        tasks.sort((a, b) => b.tPriority - a.tPriority)
-        tasks.forEach(element => {
-            console.log(createTaskNode(element))
-            todoList.appendChild(createTaskNode(element))
-        });
-    }
-    
-    if (key === DOING) {
-        tasks.sort((a, b) => b.tPriority - a.tPriority)
-        tasks.forEach(element => {
-            console.log(createTaskNode(element))
-            todoList.appendChild(createTaskNode(element))
-        });
-    }
-
-    if (key === COMPLETE) {
-        tasks.sort((a, b) => b.tPriority - a.tPriority)
-        tasks.forEach(element => {
-            console.log(createTaskNode(element))
-            todoList.appendChild(createTaskNode(element))
-        });
-    }
-
-   }
+  reorderTasks(TODO);
+  reorderTasks(DOING);
+  reorderTasks(COMPLETE);
 })()

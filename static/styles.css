@@ -184,6 +184,30 @@ body .container .main-container .task-container .board-wrapper ul li p{
 
 body .container .main-container .task-container .board-wrapper ul li .actions-wrapper{
     justify-self: end;
+    position: relative;
+}
+
+body .container .main-container .task-container .board-wrapper ul li .actions-wrapper label{
+    font-size: 12px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+body .container .main-container .task-container .board-wrapper ul li .actions-wrapper select{
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    display: none;
+    padding: 5px;
+    border: 1px solid #ead3ca;
+    border-radius: 5px;
+    box-shadow: 2px 2px 7px -1px rgba(0,0,0,0.75);
+    font-size: 14px;
+    outline: none;
+    text-transform: capitalize;
+}
+body .container .main-container .task-container .board-wrapper ul li .actions-wrapper select.active{
+    display: block;
 }
 body .container .main-container .task-container .board-wrapper ul li .actions-wrapper .delete-btn{
     border: none;
