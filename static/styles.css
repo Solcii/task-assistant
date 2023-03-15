@@ -30,6 +30,12 @@ body .container .left-container{
     box-shadow: 3px 8px 18px -1px rgba(0,0,0,0.75);
 }
 
+body .container .left-container img{
+    width: 100px;
+    display: block;
+    margin: auto;
+}
+
 body .container .left-container h1{
     text-align: center;
     margin-bottom: 10px;
