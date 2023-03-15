@@ -14,14 +14,13 @@ const COMPLETE = "complete";
 const TASKS = "tasks";
 
 const state = retrieveData();
-console.log(state);
 
 addTaskForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = Object.fromEntries(new FormData(addTaskForm));
 
   const taskNode = createTaskNode(formData);
-  state.todo.push(formData);
+  state.todo.push({...formData, id: Date.now(), tCategory: TODO});
   todoList.appendChild(taskNode);
 
   saveInLocalStorage()
@@ -29,19 +28,20 @@ addTaskForm.addEventListener("submit", (e) => {
   addTaskForm.reset();
 });
 
-function addDeleteBtn() {
+function addDeleteBtn(data) {
   const deleteBtn = document.createElement("button");
   deleteBtn.classList.add("delete-btn");
 
   deleteBtn.addEventListener('click', ()=>{
-    deleteTask(deleteBtn);
+    deleteTask(data);
   });
 
   return deleteBtn;
 }
 
-function deleteTask(clickedElement){
-  clickedElement.parentElement.parentElement.remove();
+function deleteTask(data){
+  removeAndUpdateLocalStorage(data.tCategory, data.id)
+  renderAllTasks();
 }
 
 function createTaskNode(data) {
@@ -50,7 +50,7 @@ function createTaskNode(data) {
   const actionsWrapper = document.createElement("div");
   const label = document.createElement('label')
   const moveSelect = createMoveSelector();
-  const deleteBtn = addDeleteBtn();
+  const deleteBtn = addDeleteBtn(data);
 
   const priorities = { 0: 'normal' , 1: 'medium' ,  2: 'high' };
 
@@ -81,6 +81,13 @@ function toggleSelector(clickedElement){
 function createMoveSelector(currentCategory = TODO) {
   const select = document.createElement("select");
   const categories = [{ 0: TODO }, { 1: DOING }, { 2: COMPLETE }];
+  const defaultOption = document.createElement("option");
+  defaultOption.value = '';
+  defaultOption.setAttribute('disabled', true)
+  defaultOption.setAttribute('selected', true)
+  defaultOption.textContent = 'Seleccionar';
+  select.appendChild(defaultOption);
+
   categories
     .filter((v) => Object.values(v)[0] !== currentCategory)
     .map((v) => {
@@ -88,13 +95,45 @@ function createMoveSelector(currentCategory = TODO) {
       const [key, value] = Object.entries(v)[0];
       option.value = key;
       option.textContent = value;
+      
       select.appendChild(option);
     });
+
+  select.addEventListener('change', ()=>{
+    moveTask(select, categories);
+  })
   return select;
+}
+
+function moveTask(selector, categories){
+  const taskContainer = selector.parentElement.parentElement;
+
+  categories = Object.values(categories)
+  categories.forEach((c)=>{
+    [key, value] = Object.entries(c)[0];
+    if(selector.value === key){
+      const targetList = getTargetList(value);
+      taskContainer.remove();
+      replaceSelectAfterMove(value, taskContainer);
+      targetList.appendChild(taskContainer);
+      //reorderTasks(value);
+    }
+  });
+}
+
+function getTargetList(value){
+  const listName = `ul#${value}`;
+  const targetList = document.querySelector(listName);
+  return targetList
 }
 
 function saveInLocalStorage() {
   localStorage.setItem(TASKS, JSON.stringify(state));
+}
+
+function removeAndUpdateLocalStorage(category, id) {
+  state[category] = state[category].filter(task => task.id !== id);
+  saveInLocalStorage();
 }
 
 function retrieveData() {
@@ -107,8 +146,7 @@ function retrieveData() {
 }
 
 function reorderTasks(list){
-  const listName = `ul#${list}`;
-  const listObject = document.querySelector(listName);
+  const listObject = getTargetList(list);
   for (const [key, tasks] of Object.entries(state)) {
   if (key === list) {
         tasks.sort((a, b) => b.tPriority - a.tPriority)
@@ -120,8 +158,17 @@ function reorderTasks(list){
   }
 }
 
-(function renderAllTasks(){
+function replaceSelectAfterMove(newCategory, node) {
+ const newSelector = createMoveSelector(newCategory);
+ const actionWrapper = node.querySelector('.actions-wrapper');
+ const currentSelector = actionWrapper.querySelector('select')
+
+ actionWrapper.replaceChild(newSelector, currentSelector);
+}
+
+function renderAllTasks(){
   reorderTasks(TODO);
   reorderTasks(DOING);
   reorderTasks(COMPLETE);
-})()
+}
+(()=>renderAllTasks())();
